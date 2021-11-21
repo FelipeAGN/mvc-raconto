@@ -27,7 +27,7 @@ public class App extends Application
         Connection connection;
         connection = DataBase.connection();
 
+        System.out.println("Hola mundo desde main()");
         launch(args);
-        //System.out.println("Hola mundo desde main()");
     }
 }
