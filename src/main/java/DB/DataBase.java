@@ -13,7 +13,7 @@ public class DataBase {
 
         try {
             // create a database connection
-            connection = DriverManager.getConnection("jdbc:sqlite:/home/advanze/uniworkspace_v2/idn/src/main/resources/database.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:./src/main/resources/database.db");
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec.
             System.out.println("Funciona la conexion a la base de datos");
