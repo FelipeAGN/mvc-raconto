@@ -1,6 +1,5 @@
 package controllers;
 
-import DAO.OrderDAOImpl;
 import com.jfoenix.controls.JFXButton;
 import form.Client;
 import javafx.event.Event;
@@ -14,11 +13,34 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 
-public class MainViewController extends BaseController
+public class ProductsViewController extends BaseController
 {
     @FXML
     private VBox parentContainer;
+
+    @FXML
+    private Label totalMountLabel;
+
+    @FXML
+    private Label categoryLabel;
+
+    private String category;
+    private double mount;
+
+    public void initialize(String category, double mount)
+    {
+        this.category = category;
+        this.mount = mount;
+
+        //Set category to label
+        this.categoryLabel.setText(this.category);
+
+        //Set total mount to label
+        DecimalFormat formatter = new DecimalFormat("###,###");
+        this.totalMountLabel.setText("$ " + formatter.format(this.mount));
+    }
 
     @FXML
     private void loadMenuView()
@@ -28,18 +50,15 @@ public class MainViewController extends BaseController
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/menuView.fxml"));
             Parent root = loader.load();
-            Scene escena = new Scene(root);
-
-            // Crear un nuevo pedido
-            OrderDAOImpl order = new OrderDAOImpl();
+            Scene scene = new Scene(root);
 
             //Obtiene el controlador de la vista
             MenuViewController controller = (MenuViewController) loader.getController();
-            controller.initialize(40000);
+            controller.initialize(this.mount);
 
-            Stage ventana = (Stage) parentContainer.getScene().getWindow();
-            ventana.setScene(escena);
-            ventana.show();
+            Stage window = (Stage) parentContainer.getScene().getWindow();
+            window.setScene(scene);
+            window.show();
         }
         catch (IOException | IllegalStateException exception)
         {

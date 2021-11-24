@@ -6,7 +6,6 @@ import java.sql.Statement;
 
 public class DataBase {
 
-
     public static Connection connection() {
 
         Connection connection = null;
@@ -31,5 +30,4 @@ public class DataBase {
         }
         return connection;
     }
-
 }
