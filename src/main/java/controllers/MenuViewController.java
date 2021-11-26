@@ -1,14 +1,10 @@
 package controllers;
 
-import com.jfoenix.controls.JFXButton;
-import form.Client;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -97,6 +93,30 @@ public class MenuViewController extends BaseController
             //Carga el controlador de la vista
             ProductsViewController controller = (ProductsViewController) loader.getController();
             controller.initialize(category, 2000);
+
+            Stage ventana = (Stage) parentContainer.getScene().getWindow();
+            ventana.setScene(escena);
+            ventana.show();
+        }
+        catch (IOException | IllegalStateException exception)
+        {
+            showAlertException(exception);
+        }
+    }
+
+    @FXML
+    private void loadCartView()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/cartView.fxml"));
+            Parent root = loader.load();
+            Scene escena = new Scene(root);
+
+            //Carga el controlador de la vista
+            CartViewController controller = (CartViewController) loader.getController();
+            controller.initialize(2000);
 
             Stage ventana = (Stage) parentContainer.getScene().getWindow();
             ventana.setScene(escena);

@@ -1,6 +1,5 @@
 package controllers;
 
-import DAO.OrderDAOImpl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,28 +9,20 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class MainViewController extends BaseController
+public class OrderSuccessfulViewController extends BaseController
 {
     @FXML
     private VBox parentContainer;
 
     @FXML
-    private void loadMenuView()
+    private void loadMainView()
     {
         try
         {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/menuView.fxml"));
+            loader.setLocation(getClass().getResource("/fxml/mainView.fxml"));
             Parent root = loader.load();
             Scene escena = new Scene(root);
-
-            // Crear un nuevo pedido
-            OrderDAOImpl order = new OrderDAOImpl();
-
-            //Obtiene el controlador de la vista
-            MenuViewController controller = (MenuViewController) loader.getController();
-            controller.initialize(40000);
-
             Stage ventana = (Stage) parentContainer.getScene().getWindow();
             ventana.setScene(escena);
             ventana.show();

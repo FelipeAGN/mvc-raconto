@@ -6,6 +6,8 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
@@ -16,14 +18,18 @@
    <children>
       <HBox alignment="CENTER" prefHeight="70.0" prefWidth="723.0" style="-fx-background-color: #63443c;">
          <children>
-            <MaterialDesignIconView disable="true" fill="#f6eddc" glyphName="ARROW_LEFT" size="36">
+            <JFXButton contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" onAction="#loadMenuView" prefHeight="44.0" prefWidth="50.0" ripplerFill="#ffffff00">
+               <graphic>
+                  <MaterialDesignIconView disable="true" fill="#f6eddc" glyphName="ARROW_LEFT" size="50">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </MaterialDesignIconView>
+               </graphic>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
-               <HBox.margin>
-                  <Insets left="15.0" />
-               </HBox.margin>
-            </MaterialDesignIconView>
+            </JFXButton>
             <Region minHeight="70.0" HBox.hgrow="ALWAYS" />
             <MaterialDesignIconView fill="WHITE" glyphName="CASH_100" size="36">
                <HBox.margin>
@@ -51,9 +57,9 @@
             <Region prefWidth="200.0" />
          </children>
       </HBox>
-      <ScrollPane hbarPolicy="NEVER" hmax="0.0" prefHeight="537.0" prefWidth="700.0" style="-fx-background-color: #F8EDE7;">
+      <ScrollPane hbarPolicy="NEVER" hmax="0.0" prefHeight="537.0" prefWidth="700.0" style="-fx-background: #F8EDE7; -fx-border-color: #FFFFFF;" vbarPolicy="ALWAYS">
          <content>
-            <VBox alignment="TOP_CENTER" prefHeight="330.0" prefWidth="685.0" spacing="20.0" style="-fx-background-color: #F8EDE7;">
+            <VBox fx:id="productsContainer" alignment="TOP_CENTER" prefHeight="330.0" prefWidth="685.0" spacing="20.0" style="-fx-background-color: #F8EDE7;">
                <children>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="316.0" spacing="15.0" style="-fx-background-color: #FFFFFF;">
                      <children>
@@ -80,7 +86,7 @@
                               </Label>
                            </children>
                         </VBox>
-                        <JFXButton alignment="CENTER" style="-fx-background-color: #D1C926; -fx-border-radius: 10;" text="AGREGAR" textAlignment="CENTER" textFill="WHITE">
+                        <JFXButton fx:id="button" alignment="CENTER" onAction="#toggleProduct" prefWidth="154.0" style="-fx-background-color: #D1C926; -fx-border-radius: 10;" text="AGREGAR" textAlignment="CENTER" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
@@ -100,14 +106,15 @@
                   <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="316.0" spacing="15.0" style="-fx-background-color: #FFFFFF;">
                      <children>
                         <Region prefHeight="135.0" prefWidth="50.0" />
-                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="135.0" prefWidth="150.0" style="-fx-background-color: #FFFFFF;" styleClass="panel">
-                           <cursor>
-                              <Cursor fx:constant="DEFAULT" />
-                           </cursor>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                        </AnchorPane>
+                        <VBox alignment="CENTER" minHeight="135.0" minWidth="150.0" prefHeight="135.0" prefWidth="150.0" style="-fx-background-color: #FFFFFF; -fx-border-width: 2; -fx-border-color: #63443C; -fx-border-radius: 2;">
+                           <children>
+                              <ImageView fitHeight="125.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../../Downloads/barros.jpg" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </VBox>
                         <VBox prefHeight="78.0" prefWidth="209.0" spacing="10.0">
                            <children>
                               <Label prefHeight="35.0" prefWidth="217.0" text="Completo Italiano" textFill="#63443c">
@@ -122,91 +129,7 @@
                               </Label>
                            </children>
                         </VBox>
-                        <JFXButton alignment="CENTER" style="-fx-background-color: #D1C926; -fx-border-radius: 10;" text="AGREGAR" textAlignment="CENTER" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="20.0" />
-                           </font>
-                           <padding>
-                              <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
-                           </padding>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </JFXButton>
-                        <Region prefHeight="135.0" prefWidth="50.0" />
-                     </children>
-                     <padding>
-                        <Insets bottom="15.0" top="15.0" />
-                     </padding>
-                  </HBox>
-                  <HBox alignment="CENTER" layoutX="10.0" layoutY="195.0" prefHeight="100.0" prefWidth="316.0" spacing="15.0" style="-fx-background-color: #FFFFFF;">
-                     <children>
-                        <Region prefHeight="135.0" prefWidth="50.0" />
-                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="135.0" prefWidth="150.0" style="-fx-background-color: #FFFFFF;" styleClass="panel">
-                           <cursor>
-                              <Cursor fx:constant="DEFAULT" />
-                           </cursor>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                        </AnchorPane>
-                        <VBox prefHeight="78.0" prefWidth="209.0" spacing="10.0">
-                           <children>
-                              <Label prefHeight="35.0" prefWidth="217.0" text="Completo Italiano" textFill="#63443c">
-                                 <font>
-                                    <Font name="System Bold" size="24.0" />
-                                 </font>
-                              </Label>
-                              <Label style="-fx-border-width: 5; -fx-boder-color: #DB674F;" text="\$ 1000" textFill="#db674f">
-                                 <font>
-                                    <Font name="System Bold" size="28.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </VBox>
-                        <JFXButton alignment="CENTER" style="-fx-background-color: #D1C926; -fx-border-radius: 10;" text="AGREGAR" textAlignment="CENTER" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="20.0" />
-                           </font>
-                           <padding>
-                              <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
-                           </padding>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </JFXButton>
-                        <Region prefHeight="135.0" prefWidth="50.0" />
-                     </children>
-                     <padding>
-                        <Insets bottom="15.0" top="15.0" />
-                     </padding>
-                  </HBox>
-                  <HBox alignment="CENTER" layoutX="10.0" layoutY="380.0" prefHeight="100.0" prefWidth="316.0" spacing="15.0" style="-fx-background-color: #FFFFFF;">
-                     <children>
-                        <Region prefHeight="135.0" prefWidth="50.0" />
-                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="135.0" prefWidth="150.0" style="-fx-background-color: #FFFFFF;" styleClass="panel">
-                           <cursor>
-                              <Cursor fx:constant="DEFAULT" />
-                           </cursor>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                        </AnchorPane>
-                        <VBox prefHeight="78.0" prefWidth="209.0" spacing="10.0">
-                           <children>
-                              <Label prefHeight="35.0" prefWidth="217.0" text="Completo Italiano" textFill="#63443c">
-                                 <font>
-                                    <Font name="System Bold" size="24.0" />
-                                 </font>
-                              </Label>
-                              <Label style="-fx-border-width: 5; -fx-boder-color: #DB674F;" text="\$ 1000" textFill="#db674f">
-                                 <font>
-                                    <Font name="System Bold" size="28.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </VBox>
-                        <JFXButton alignment="CENTER" style="-fx-background-color: #D1C926; -fx-border-radius: 10;" text="AGREGAR" textAlignment="CENTER" textFill="WHITE">
+                        <JFXButton fx:id="button1" alignment="CENTER" onAction="#toggleProduct" prefWidth="154.0" style="-fx-background-color: #D1C926; -fx-border-radius: 10;" text="AGREGAR" textAlignment="CENTER" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
