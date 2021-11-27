@@ -1,6 +1,7 @@
 package controllers;
 
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
+import form.Pedido;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -41,11 +42,13 @@ public class CartViewController extends BaseController
     @FXML
     private Label quantityLabel;
 
+    private Pedido pedido;
     private double mount;
     private int quantity;
 
-    public void initialize(double mount)
+    public void initialize(Pedido pedido, double mount)
     {
+        this.pedido = pedido;
         this.mount = mount;
 
         this.quantity = 1;
@@ -295,7 +298,7 @@ public class CartViewController extends BaseController
 
             //Obtiene el controlador de la vista
             MenuViewController controller = (MenuViewController) loader.getController();
-            controller.initialize(this.mount);
+            controller.initialize(this.pedido, this.mount);
 
             Stage window = (Stage) parentContainer.getScene().getWindow();
             window.setScene(scene);

@@ -5,7 +5,6 @@ public class DataBase {
 
     public static Connection connection() {
 
-
         Connection connection = null;
         ResultSet resultSet = null;
         Statement statement = null;
@@ -13,7 +12,7 @@ public class DataBase {
         try {
             // create a database connection
             Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:./src/main/resources/database.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:./src/main/resources/identifier.sqlite");
             statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
