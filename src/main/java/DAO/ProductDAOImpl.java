@@ -81,7 +81,9 @@ public class ProductDAOImpl implements ProductDAO{
                         resultado.getInt("id"),
                         resultado.getString("name"),
                         resultado.getDouble("price"),
-                        resultado.getString("description")
+                        resultado.getInt("category"),
+                        resultado.getString("description"),
+                        resultado.getString("path")
                 );
                 list.add(product);
             }
@@ -90,5 +92,34 @@ public class ProductDAOImpl implements ProductDAO{
             throwables.printStackTrace();
         }
         return list;
+    }
+
+    @Override
+    public List<Product> listProductsByCategoria(Integer categoria) {
+        List<Product> list = new ArrayList<>();
+        query = "select * from product WHERE category = ?";
+        try {
+            conexion = DataBase.connection();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setInt(1,categoria);
+            resultado = sentencia.executeQuery();
+
+            while (resultado.next()){
+                Product product = new Product(
+                        resultado.getInt("id"),
+                        resultado.getString("name"),
+                        resultado.getDouble("price"),
+                        resultado.getInt("category"),
+                        resultado.getString("description"),
+                        resultado.getString("path")
+                );
+                list.add(product);
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        if(!list.isEmpty()){ return list; }
+        return  null;
     }
 }

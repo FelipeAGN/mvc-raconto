@@ -10,4 +10,5 @@ public interface ProductDAO {
     public Product insert(Product product);
     public Product update(Product product);
     public List<Product> listProducts();
+    public List<Product> listProductsByCategoria(Integer categoria);
 }

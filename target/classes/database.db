@@ -1,23 +1,23 @@
-create table client (
-                        id integer primary key autoincrement,
-                        name varchar(255),
-                        lastName varchar(255),
-                        email varchar(255)
-);
+-- create table client (
+--     id integer primary key autoincrement,
+--     name varchar(255),
+--     lastName varchar(255),
+--     email varchar(255)
+-- );
 
 create table pedido (
                         id integer primary key autoincrement,
-                        id_client integer,
+                        created_at timestamp without time DEFAULT CURRENT_TIMESTAMP,
                         totalBalance double,
                         tipBalance double,
-                        description varchar(255),
-                        foreign key (id_client) references client(id)
+                        description varchar(255)
 );
 
 create table product (
                          id integer primary key autoincrement,
                          name varchar(255),
                          price double,
+                         category varchar(255),
                          description varchar(255)
 );
 
@@ -30,17 +30,25 @@ create table pedido_product(
                                FOREIGN KEY (id_product) REFERENCES product(id)
 );
 
-insert into product(id,name,price,description) values (1,'Café Cortado', 2990,'Cafe con leche 50/50');
-insert into product(id,name,price,description) values (2,'Café Espresso', 2890,'Cafe puro alta intensidad');
-insert into product(id,name,price,description) values (3,'Café Americano', 2990,'Cafe puro regulado en intesidad');
-insert into product(id,name,price,description) values (4,'Café Capuccino', 2990,'Cafe con leche 30/70');
-insert into product(id,name,price,description) values (5,'Café Mocca', 2990,'Cafe con leche 60/40 con Cacao');
-insert into product(id,name,price,description) values (6,'Café Vienés', 2990,'60% Cafe y 40% Crema');
-insert into product(id,name,price,description) values (7,'Torta de Yogurth Frutilla', 1890,'Base de galletas con yogurth de frutilla');
-insert into product(id,name,price,description) values (8,'Torta de Trufa', 1890,'Cafe con leche 50/50');
-insert into product(id,name,price,description) values (9,'Torta de Helado', 1890,'Cafe con leche 50/50');
-insert into product(id,name,price,description) values (11,'Sandwich Vegetariano', 2290,'Cafe con leche 50/50');
-insert into product(id,name,price,description) values (12,'Sandwich Americano', 3290,'Cafe con leche 50/50');
-insert into product(id,name,price,description) values (13,'Sandwich de Salmón', 3290,'Cafe con leche 50/50');
-insert into product(id,name,price,description) values (14,'Barros Luco', 2290,'Cafe con leche 50/50');
-insert into product(id,name,price,description) values (15,'Completo Italiano', 2390,'Cafe con leche 50/50');
+insert into product(id,name,price,category,description) values (1,'Café Cortado', 2990, 'cafe', 'Cafe con leche 50/50');
+insert into product(id,name,price,category,description) values (2,'Café Espresso', 2890, 'cafe','Cafe puro alta intensidad');
+insert into product(id,name,price,category,description) values (3,'Café Americano', 2990,'cafe','Cafe puro regulado en intesidad');
+insert into product(id,name,price,category,description) values (4,'Café Capuccino', 2990,'cafe','Cafe con leche 30/70');
+insert into product(id,name,price,category,description) values (5,'Café Mocca', 2990,'cafe','Cafe con leche 60/40 con Cacao');
+insert into product(id,name,price,category,description) values (6,'Café Vienés', 2990,'cafe','60% Cafe y 40% Crema');
+insert into product(id,name,price,category,description) values (7,'Torta de Yogurth Frutilla', 1890,'postre','Base de galletas con yogurth de frutilla');
+insert into product(id,name,price,category,description) values (8,'Torta de Trufa', 1890,'postre','Torta de chocolate-trufa');
+insert into product(id,name,price,category,description) values (9,'Torta de Helado', 1890,'postre','Torta de helado');
+insert into product(id,name,price,category,description) values (11,'Barros Luco', 2290,'sandwich','Queso y carne mechada');
+insert into product(id,name,price,category,description) values (12,'Completo Italiano', 3290,'sandwich','Tomate palta mayo');
+insert into product(id,name,price,category,description) values (13,'Sandwich de Salmón', 3290,'sandwich','Cafe con leche 50/50');
+insert into product(id,name,price,category,description) values (14,'Barros Luco', 2290,'sandwich','Cafe con leche 50/50');
+insert into product(id,name,price,category,description) values (15,'Completo Italiano', 2390,'sandwich','Cafe con leche 50/50');
+
+
+insert into pedido(totalBalance,tipBalance,description) values (0.00, 0.00, 'CUARTO pedido');
+-- insert into pedido(totalBalance,tipBalance,description, created_at) values (0.00, 0.00, 'tercer pedido');
+
+SELECT * FROM pedido ORDER BY created_at DESC LIMIT 1;
+
+insert into pedido_product(id_pedido, id_product, cantidad) values (2,1,3)

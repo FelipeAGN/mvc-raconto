@@ -7,9 +7,6 @@
 
 create table pedido (
                         id integer primary key autoincrement,
-                        created_at timestamp without time DEFAULT CURRENT_TIMESTAMP,
-                        totalBalance double,
-                        tipBalance double,
                         description varchar(255)
 );
 
@@ -17,7 +14,8 @@ create table product (
                          id integer primary key autoincrement,
                          name varchar(255),
                          price double,
-                         category varchar(255),
+                         category integer,
+                         path varchar(255),
                          description varchar(255)
 );
 
@@ -46,9 +44,10 @@ insert into product(id,name,price,category,description) values (14,'Barros Luco'
 insert into product(id,name,price,category,description) values (15,'Completo Italiano', 2390,'sandwich','Cafe con leche 50/50');
 
 
-insert into pedido(totalBalance,tipBalance,description) values (0.00, 0.00, 'CUARTO pedido');
+-- insert into pedido(totalBalance,tipBalance,description) values (0.00, 0.00, 'CUARTO pedido');
 -- insert into pedido(totalBalance,tipBalance,description, created_at) values (0.00, 0.00, 'tercer pedido');
 
-SELECT * FROM pedido ORDER BY created_at DESC LIMIT 1;
 
 insert into pedido_product(id_pedido, id_product, cantidad) values (2,1,3)
+
+insert into pedido (description) values ('asdasd');

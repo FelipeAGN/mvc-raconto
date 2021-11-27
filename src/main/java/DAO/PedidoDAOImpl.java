@@ -2,15 +2,11 @@ package DAO;
 
 import DB.DataBase;
 import form.Pedido;
-import form.PedidoProduct;
-import form.Product;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PedidoDAOImpl implements PedidoDAO {
 
@@ -21,40 +17,36 @@ public class PedidoDAOImpl implements PedidoDAO {
     public String query;
     public String query2;
 
-    @Override
-    public Pedido findPedidoByIdClient(Integer idClient) {
-        query = "select id from pedido where id_client=?";
-        Pedido pedido = null;
-        List<PedidoProduct> pedidoProductList;
-        try {
-            conexion = DataBase.connection();
-            sentencia = conexion.prepareStatement(query);
-            sentencia.setInt(1,idClient);
-            resultado = sentencia.executeQuery();
-
-            while (resultado.next()){
-                pedido = new Pedido(
-                        resultado.getInt("id"),
-                        resultado.getDouble("totalBalance"),
-                        resultado.getDouble("tipBalance"),
-                        resultado.getString("description")
-                );
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return pedido;
-    }
+//    @Override
+//    public Pedido findPedidoById(Integer id) {
+//        query = "select * from pedido where id=?";
+//        Pedido pedido1 = null;
+//        try{
+//            conexion = DataBase.connection();
+//            sentencia = conexion.prepareStatement(query);
+//            sentencia.setInt(1, id);
+//            resultado = sentencia.executeQuery();
+//
+//            while (resultado.next()){
+//                Pedido pedido = new Pedido(
+//
+//                );
+//                pedido1 = pedido;
+//            }
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        }
+//        if (pedido1 != null){ return pedido1; }
+//        return null;
+//    }
 
     @Override
     public Pedido insert(Pedido pedido) {
-        query = "insert into pedido (totalBalance,tipBalance,description) values (?,?,?)";
+        query = "insert into pedido(desciption) values(?)";
         try{
             conexion = DataBase.connection();
             sentencia = conexion.prepareStatement(query);
-            sentencia.setDouble(1,pedido.getTotalBalance());
-            sentencia.setDouble(2,pedido.getTipBalance());
-            sentencia.setString(3,pedido.getDescription());
+            sentencia.setString(1,pedido.getDescription());
             resultadoParaEnteros = sentencia.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -72,8 +64,6 @@ public class PedidoDAOImpl implements PedidoDAO {
 
             while (resultado.next()){
                 pedidoResult.setId(resultado.getInt("id"));
-                pedidoResult.setTotalBalance(resultado.getDouble("totalBalance"));
-                pedidoResult.setTipBalance(resultado.getDouble("tipBalance"));
                 pedidoResult.setDescription(resultado.getString("description"));
             }
         } catch (SQLException throwables) {
@@ -88,91 +78,39 @@ public class PedidoDAOImpl implements PedidoDAO {
     }
 
 //    @Override
-//    public Pedido insert(Pedido pedido) {
+//    public Pedido update(Pedido pedido) {
+//        return null;
+//    }
 //
-//        query2 = "select price from product where id = ?";
-//        List<Double> balance = new ArrayList<>();
-//        Double priceProduct = null;
-//        Double balanceProduct = null;
-//        Double totalBalancePedido = null;
+//
+//    // Para la carta: Setea una cantidad
+//    @Override
+//    public Pedido addProductToPedido(Pedido pedido, Product product, Integer cantidad) {
+//        PedidoProduct pedidoProduct = new PedidoProduct();
+//        pedidoProduct.setId_product(product.getId());
+//        pedidoProduct.setId_pedido(pedido.getId());
+//        pedidoProduct.setCantidadProduct(cantidad);
+//        pedido.addProductToPedido(pedidoProduct);
+//
+//        query = "INSERT INTO pedido_product(id_pedido,id_product,cantidad) values (?,?,?)";
 //        try{
-//            for(PedidoProduct pedidoProduct: pedido.getPedidoProducts()){
-//                conexion = DataBase.connection();
-//                sentencia = conexion.prepareStatement(query2);
-//                sentencia.setInt(1, pedidoProduct.getId_product());
-//                resultado = sentencia.executeQuery();
-//
-//                while (resultado.next()){
-//                    priceProduct = resultado.getDouble("price");
-//                }
-//                if(priceProduct!=null){
-//                    balanceProduct = priceProduct * pedidoProduct.getCantidadProduct();
-//                    balance.add(balanceProduct);
-//                }else {
-//                    System.out.println("No se encontro el precio del producto");
-//                }
-//            }
+//            conexion = DataBase.connection();
+//            sentencia = conexion.prepareStatement(query);
+//            sentencia.setInt(1,pedidoProduct.getId());
+//            sentencia.setInt(2,pedidoProduct.getId());
+//            sentencia.setInt(3,pedidoProduct.getCantidadProduct());
+//            resultadoParaEnteros = sentencia.executeUpdate();
 //        } catch (SQLException throwables) {
 //            throwables.printStackTrace();
 //        }
-//        if(balance.size()>0){
-//            for(Double x : balance){
-//                totalBalancePedido+=x;
-//            }
-//            double tipBalance = totalBalancePedido * 0.10;
-//
-//            query = "insert into pedido(id_client,description,totalBalance,tipBalance)";
-//            try{
-//                conexion = DataBase.connection();
-//                sentencia = conexion.prepareStatement(query);
-//                sentencia.setInt(1,pedido.getId_cliente());
-//                sentencia.setString(2,pedido.getDescription());
-//                sentencia.setDouble(3,totalBalancePedido);
-//                sentencia.setDouble(4,tipBalance);
-//                resultadoParaEnteros = sentencia.executeUpdate();
-//            } catch (SQLException throwables) {
-//                throwables.printStackTrace();
-//            }
-//            if(resultadoParaEnteros >0){
-//                System.out.println("Pedido ingresado: " + pedido.getDescription());
-//            }
+//        if(resultadoParaEnteros >0){
+//            System.out.println("Producto: " + product.getName() + "Agregado a pedido: " + pedido.getId());
 //        }
+//
+//        List<PedidoProduct> list = pedido.getProductList();
+//        Double amount = 0.0;
+//
 //        return pedido;
 //    }
 
-    @Override
-    public Pedido update(Pedido pedido) {
-        return null;
-    }
-
-
-
-    @Override
-    public Pedido addProductToPedido(Pedido pedido, Product product, Integer cantidad) {
-        PedidoProduct pedidoProduct = new PedidoProduct();
-        pedidoProduct.setId_product(product.getId());
-        pedidoProduct.setId_pedido(pedido.getId());
-        pedidoProduct.setCantidadProduct(cantidad);
-        pedido.setProductToPedido(pedidoProduct);
-
-        query = "INSERT INTO pedido_product(id_pedido,id_product,cantidad) values (?,?,?)";
-        try{
-            conexion = DataBase.connection();
-            sentencia = conexion.prepareStatement(query);
-            sentencia.setInt(1,pedidoProduct.getId());
-            sentencia.setInt(2,pedidoProduct.getId());
-            sentencia.setInt(3,pedidoProduct.getCantidadProduct());
-            resultadoParaEnteros = sentencia.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        if(resultadoParaEnteros >0){
-            System.out.println("Producto: " + product.getName() + "Agregado a pedido: " + pedido.getId());
-        }
-
-
-
-
-        return pedido;
-    }
 }
