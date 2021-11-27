@@ -1,5 +1,6 @@
 package form;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Pedido {
@@ -8,7 +9,13 @@ public class Pedido {
     public String description;
     public List<PedidoProduct> pedidoProducts;
 
-    public Pedido() {}
+    public Pedido()
+    {
+        List<PedidoProduct> list = new ArrayList<>();
+        this.id = 1;
+        this.description = "XD";
+        this.pedidoProducts = list;
+    }
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }

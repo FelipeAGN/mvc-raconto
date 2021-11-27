@@ -24,7 +24,7 @@ public class DataBase {
         } catch (SQLException | ClassNotFoundException e) {
             System.err.println(e.getMessage());
             System.out.println("Error al conectar la base de datos");
-        } finally {
+        } /* finally {
             try {
                 if (connection != null)
                     connection.close();
@@ -32,7 +32,9 @@ public class DataBase {
                 // connection close failed.
                 System.err.println(e.getMessage());
             }
+
         }
+        */
         return connection;
     }
 }
