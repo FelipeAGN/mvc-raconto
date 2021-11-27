@@ -2,6 +2,7 @@ package controllers;
 
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import form.Pedido;
+import form.PedidoProduct;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -25,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.stream.IntStream;
 
 public class CartViewController extends BaseController
@@ -38,27 +40,20 @@ public class CartViewController extends BaseController
     @FXML
     private VBox cartContainer;
 
-    //Solo de testing
-    @FXML
-    private Label quantityLabel;
-
     private Pedido pedido;
-    private double mount;
-    private int quantity;
 
-    public void initialize(Pedido pedido, double mount)
+    public void initialize(Pedido pedido)
     {
         this.pedido = pedido;
-        this.mount = mount;
-
-        this.quantity = 1;
-        setQuantityProduct();
 
         //Set total mount to label
         DecimalFormat formatter = new DecimalFormat("###,###");
-        this.totalMountLabel.setText("$ " + formatter.format(this.mount));
+        this.totalMountLabel.setText("$ " + formatter.format(this.pedido.getTotalBalance()));
 
-        IntStream.range(0, 3).forEachOrdered(n -> {
+        List<PedidoProduct> pedidoProductList = pedido.getProductList();
+
+        for (PedidoProduct product: pedidoProductList)
+        {
             //Agregar nuevo producto
             HBox productContainer = new HBox();
             Region leftRegion = new Region();
@@ -89,7 +84,7 @@ public class CartViewController extends BaseController
 
             try
             {
-                productImageView.setImage(new Image(new FileInputStream("src/main/resources/img/products/barros.jpg")));
+                productImageView.setImage(new Image(new FileInputStream("src/main/resources/img/products/" + product.getProduct().getPathToImage())));
             }
             catch (FileNotFoundException e)
             {
@@ -106,17 +101,39 @@ public class CartViewController extends BaseController
             productInfoContainer.setMinSize(209.0, 135.0);
             productInfoContainer.setSpacing(10.0);
 
-            productNameLabel.setText("Barros Luco");
+            productNameLabel.setText(product.getProduct().getName());
             productNameLabel.setMaxSize(217.0, 35.0);
             productNameLabel.setFont(Font.font(null, FontWeight.BOLD, FontPosture.REGULAR, 24));
             productNameLabel.setTextFill(Color.rgb(99, 68, 60));
 
-            productCategoryLabel.setText("Categoría: " + "Prueba");
+            String categoryText = "";
+
+            //Set category to label
+            switch (product.getProduct().getCategoria())
+            {
+                case 1:
+                    categoryText = "Sándwich";
+                    break;
+
+                case 2:
+                    categoryText = "Postre";
+                    break;
+
+                case 3:
+                    categoryText = "Bebida";
+                    break;
+
+                case 4:
+                    categoryText = "Café";
+                    break;
+            }
+
+            productCategoryLabel.setText("Categoría: " + categoryText);
             productCategoryLabel.setMaxSize(217.0, 20.0);
             productCategoryLabel.setFont(Font.font(null, FontWeight.BOLD, FontPosture.REGULAR, 14));
             productCategoryLabel.setTextFill(Color.rgb(91, 88, 88));
 
-            productPriceLabel.setText("$ 4,500");
+            productPriceLabel.setText("$ " + formatter.format(product.getProduct().getPrice()));
             productPriceLabel.setFont(Font.font(null, FontWeight.BOLD, FontPosture.REGULAR, 28));
             productPriceLabel.setTextFill(Color.rgb(219, 103, 79));
 
@@ -129,20 +146,17 @@ public class CartViewController extends BaseController
             subtractProductButton.setCursor(Cursor.HAND);
 
             subtractProductButton.setOnMousePressed(event -> {
-                MaterialDesignIconView button = (MaterialDesignIconView) event.getSource();
-                Label quantityLabel = (Label) ((HBox) button.getParent()).getChildren().get(4);
-                int quantity = Integer.valueOf(quantityLabel.getText());
-
-                if (quantity > 0)
+                if (product.getCantidadProduct() > 1)
                 {
-                    quantityLabel.setText(Integer.toString(quantity - 1));
+                    product.lessCantidad();
+                    productQuantityLabel.setText(Integer.toString(product.getCantidadProduct()));
                 }
 
-                System.out.println("Restando");
+                updateTotalMount();
             });
 
             //Product quantity settings
-            productQuantityLabel.setText("19");
+            productQuantityLabel.setText(Integer.toString(product.getCantidadProduct()));
             productQuantityLabel.setMinSize(50.0, 58.0);
             productQuantityLabel.setMaxSize(50.0, 58.0);
             productQuantityLabel.setFont(Font.font(null, FontWeight.BOLD, FontPosture.REGULAR, 40));
@@ -156,16 +170,14 @@ public class CartViewController extends BaseController
             addProductButton.setCursor(Cursor.HAND);
 
             addProductButton.setOnMousePressed(event -> {
-                MaterialDesignIconView button = (MaterialDesignIconView) event.getSource();
-                Label quantityLabel = (Label) ((HBox) button.getParent()).getChildren().get(4);
-                int quantity = Integer.valueOf(quantityLabel.getText());
-
-                if (quantity < 99)
+                if (product.getCantidadProduct() < 99)
                 {
-                    quantityLabel.setText(Integer.toString(quantity + 1));
+                    System.out.println(product.getProduct().getName());
+                    product.addCantidad();
+                    productQuantityLabel.setText(Integer.toString(product.getCantidadProduct()));
                 }
 
-                System.out.println("Sumando");
+                updateTotalMount();
             });
 
             //Remove product button's settings
@@ -181,7 +193,9 @@ public class CartViewController extends BaseController
                 HBox container = (HBox) ((VBox) button.getParent()).getParent();
 
                 //Eliminar del elemento (base de datos)
+                this.pedido.removeProductToPedido(product.getProduct());
                 this.cartContainer.getChildren().remove(container);
+                updateTotalMount();
             });
 
             removeProductButtonContainer.getChildren().add(removeProductButton);
@@ -198,40 +212,13 @@ public class CartViewController extends BaseController
             );
 
             this.cartContainer.getChildren().add(productContainer);
-        });
-    }
-
-    private void setQuantityProduct()
-    {
-        this.quantityLabel.setText(String.format("%02d", this.quantity));
-    }
-
-    @FXML
-    private void addProduct()
-    {
-        if (this.quantity < 99)
-        {
-            this.quantity++;
-            setQuantityProduct();
-            System.out.println("Se ha agregado un producto");
         }
     }
 
-    @FXML
-    private void subtractProduct()
+    private void updateTotalMount()
     {
-        if (this.quantity > 0)
-        {
-            this.quantity--;
-            setQuantityProduct();
-            System.out.println("Se ha restado un producto");
-        }
-    }
-
-    @FXML
-    private void removeProduct()
-    {
-        System.out.println("Se ha eliminado un producto");
+        DecimalFormat formatter = new DecimalFormat("###,###");
+        this.totalMountLabel.setText("$ " + formatter.format(this.pedido.getTotalBalance()));
     }
 
     @FXML
@@ -298,7 +285,7 @@ public class CartViewController extends BaseController
 
             //Obtiene el controlador de la vista
             MenuViewController controller = (MenuViewController) loader.getController();
-            controller.initialize(this.pedido, this.mount);
+            controller.initialize(this.pedido);
 
             Stage window = (Stage) parentContainer.getScene().getWindow();
             window.setScene(scene);

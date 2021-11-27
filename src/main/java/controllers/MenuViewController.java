@@ -23,13 +23,11 @@ public class MenuViewController extends BaseController
 
     private Pedido pedido;
 
-    public void initialize(Pedido pedido, double money)
+    public void initialize(Pedido pedido)
     {
-        double dinero = 1000.0;
         this.pedido = pedido;
         DecimalFormat formatter = new DecimalFormat("###,###");
-        this.totalMountLabel.setText("$ " + formatter.format(dinero));
-        //this.totalMountLabel.setText("$ " + formatter.format(this.pedido.getTotalBalance()));
+        this.totalMountLabel.setText("$ " + formatter.format(this.pedido.getTotalBalance()));
     }
 
     @FXML
@@ -92,7 +90,7 @@ public class MenuViewController extends BaseController
 
             //Carga el controlador de la vista
             ProductsViewController controller = (ProductsViewController) loader.getController();
-            controller.initialize(this.pedido, category, 2000);
+            controller.initialize(this.pedido, category);
 
             Stage ventana = (Stage) parentContainer.getScene().getWindow();
             ventana.setScene(escena);
@@ -116,7 +114,7 @@ public class MenuViewController extends BaseController
 
             //Carga el controlador de la vista
             CartViewController controller = (CartViewController) loader.getController();
-            controller.initialize(this.pedido,2000);
+            controller.initialize(this.pedido);
 
             Stage ventana = (Stage) parentContainer.getScene().getWindow();
             ventana.setScene(escena);

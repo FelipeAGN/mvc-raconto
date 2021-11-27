@@ -30,7 +30,7 @@ public class MainViewController extends BaseController
 
             //Obtiene el controlador de la vista
             MenuViewController controller = (MenuViewController) loader.getController();
-            controller.initialize(pedido, 0);
+            controller.initialize(pedido);
 
             Stage ventana = (Stage) parentContainer.getScene().getWindow();
             ventana.setScene(escena);

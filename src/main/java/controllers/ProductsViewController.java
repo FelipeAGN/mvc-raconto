@@ -4,6 +4,7 @@ import DAO.ProductDAOImpl;
 import com.jfoenix.controls.JFXButton;
 import form.CategoriaProduct;
 import form.Pedido;
+import form.PedidoProduct;
 import form.Product;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -51,35 +52,49 @@ public class ProductsViewController extends BaseController
     private JFXButton button;
 
     private Pedido pedido;
-    private CategoriaProduct category;
-    private double mount;
+    private List<Product> productsList;
 
-    private boolean state;
-
-    public void initialize(Pedido pedido, CategoriaProduct category, double mount)
+    public void initialize(Pedido pedido, CategoriaProduct category)
     {
         this.pedido = pedido;
-        this.category = category;
-        this.mount = mount;
-        this.state = false;
+
+        String categoryText = "";
 
         //Set category to label
-        this.categoryLabel.setText(this.category.toString());
+        switch (category)
+        {
+            case CAFE:
+                categoryText = "Cafés";
+                break;
+
+            case BEBIDA:
+                categoryText = "Bebidas";
+                break;
+
+            case POSTRE:
+                categoryText = "Postres";
+                break;
+
+            case SANDWICH:
+                categoryText = "Sándwiches";
+                break;
+        }
+
+        this.categoryLabel.setText(categoryText);
 
         //Set total mount to label
         DecimalFormat formatter = new DecimalFormat("###,###");
-        this.totalMountLabel.setText("$ " + formatter.format(this.mount));
+        this.totalMountLabel.setText("$ " + formatter.format(this.pedido.getTotalBalance()));
 
         //Get Products
         ProductDAOImpl productDAO = new ProductDAOImpl();
 
         System.out.println(category.getCategoriaProductValue());
 
-        List<Product> productsList = productDAO.listProductsByCategoria(category.getCategoriaProductValue());
+        this.productsList = productDAO.listProductsByCategoria(category.getCategoriaProductValue());
 
-        System.out.println(productsList);
-
-        IntStream.range(0, 3).forEachOrdered(n -> {
+        for (Product product: this.productsList)
+        {
             //Agregar nuevo producto
             HBox productContainer = new HBox();
             Region leftRegion = new Region();
@@ -106,7 +121,7 @@ public class ProductsViewController extends BaseController
 
             try
             {
-                productImageView.setImage(new Image(new FileInputStream("src/main/resources/img/products/barros.jpg")));
+                productImageView.setImage(new Image(new FileInputStream("src/main/resources/img/products/" + product.getPathToImage())));
             }
             catch (FileNotFoundException e)
             {
@@ -122,12 +137,12 @@ public class ProductsViewController extends BaseController
             productInfoContainer.setMinSize(209.0, 135.0);
             productInfoContainer.setSpacing(10.0);
 
-            productNameLabel.setText("Barros Luco");
+            productNameLabel.setText(product.getName());
             productNameLabel.setMaxSize(209.0, 35.0);
             productNameLabel.setFont(Font.font(null, FontWeight.BOLD, FontPosture.REGULAR, 24));
             productNameLabel.setTextFill(Color.rgb(99, 68, 60));
 
-            productPriceLabel.setText("$ 4,500");
+            productPriceLabel.setText("$ " + formatter.format(product.getPrice()));
             productPriceLabel.setFont(Font.font(null, FontWeight.BOLD, FontPosture.REGULAR, 28));
             productPriceLabel.setTextFill(Color.rgb(219, 103, 79));
 
@@ -135,40 +150,45 @@ public class ProductsViewController extends BaseController
 
             //Add button's settings
             addProductButton.setMinSize(154.0, 50.0);
-            addProductButton.setText("AGREGAR");
             addProductButton.setFont(Font.font(null, FontWeight.BOLD, FontPosture.REGULAR, 20));
             addProductButton.setTextAlignment(TextAlignment.CENTER);
             addProductButton.setTextFill(Color.rgb(255, 255, 255));
             addProductButton.setCursor(Cursor.HAND);
-            addProductButton.setStyle("-fx-background-color: #D1C926; -fx-border-radius: 10;");
+
+            if (this.pedido.getProductByName(product.getName()) == null)
+            {
+                addProductButton.setText("AGREGAR");
+                addProductButton.setStyle("-fx-background-color: #D1C926; -fx-border-radius: 10;");
+            }
+            else
+            {
+                addProductButton.setText("QUITAR");
+                addProductButton.setStyle("-fx-background-color: #DB674F; -fx-border-radius: 10;");
+            }
+
 
             addProductButton.setOnAction(event -> {
-                JFXButton button = (JFXButton) event.getSource();
-                VBox container = (VBox) ((HBox) button.getParent()).getChildren().get(2);
-                String productName = ((Label) container.getChildren().get(0)).getText();
                 String radiusStyle = "-fx-border-radius: 10;";
 
-                if (productName == null)
-                    return;
-
-                System.out.println(productName);
-
                 //Get product from database
-
                 // Show alert window
 
-                if (this.state)
+                if (this.pedido.getProductByName(product.getName()) != null)
                 {
-                    button.setText("AGREGAR");
-                    button.setStyle("-fx-background-color: #D1C926;" + radiusStyle);
+                    //Quitar producto al pedido
+                    this.pedido.removeProductToPedido(product);
+                    addProductButton.setText("AGREGAR");
+                    addProductButton.setStyle("-fx-background-color: #D1C926;" + radiusStyle);
                 }
                 else
                 {
-                    button.setText("QUITAR");
-                    button.setStyle("-fx-background-color: #DB674F;" + radiusStyle);
+                    //Agregar producto al pedido
+                    this.pedido.addProductToPedido(product, 1);
+                    addProductButton.setText("QUITAR");
+                    addProductButton.setStyle("-fx-background-color: #DB674F;" + radiusStyle);
                 }
 
-                this.state = !this.state;
+                updateTotalMount();
             });
 
             // Right Region
@@ -177,24 +197,13 @@ public class ProductsViewController extends BaseController
             productContainer.getChildren().addAll(leftRegion, productImageContainer, productInfoContainer, addProductButton, rightRegion);
 
             this.productsContainer.getChildren().add(productContainer);
-        });
+        };
     }
 
-    @FXML
-    private void toggleProduct()
+    private void updateTotalMount()
     {
-        if (this.state)
-        {
-            this.button.setText("AGREGAR");
-            this.button.setStyle("-fx-background-color: #D1C926;");
-        }
-        else
-        {
-            this.button.setText("QUITAR");
-            this.button.setStyle("-fx-background-color: #DB674F;");
-        }
-
-        this.state = !this.state;
+        DecimalFormat formatter = new DecimalFormat("###,###");
+        this.totalMountLabel.setText("$ " + formatter.format(this.pedido.getTotalBalance()));
     }
 
     @FXML
@@ -209,7 +218,7 @@ public class ProductsViewController extends BaseController
 
             //Obtiene el controlador de la vista
             MenuViewController controller = (MenuViewController) loader.getController();
-            controller.initialize(this.pedido, this.mount);
+            controller.initialize(this.pedido);
 
             Stage window = (Stage) parentContainer.getScene().getWindow();
             window.setScene(scene);
