@@ -1,6 +1,6 @@
 package controllers;
 
-import DAO.OrderDAOImpl;
+import DAO.PedidoDAOImpl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,7 +26,7 @@ public class MainViewController extends BaseController
             Scene escena = new Scene(root);
 
             // Crear un nuevo pedido
-            OrderDAOImpl order = new OrderDAOImpl();
+            PedidoDAOImpl pedidoDAO = new PedidoDAOImpl();
 
             //Obtiene el controlador de la vista
             MenuViewController controller = (MenuViewController) loader.getController();
