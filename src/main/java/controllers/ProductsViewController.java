@@ -25,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.stream.IntStream;
 
 public class ProductsViewController extends BaseController
 {
@@ -62,103 +63,105 @@ public class ProductsViewController extends BaseController
         DecimalFormat formatter = new DecimalFormat("###,###");
         this.totalMountLabel.setText("$ " + formatter.format(this.mount));
 
-        //Agregar nuevo producto
-        HBox productContainer = new HBox();
-        Region leftRegion = new Region();
-        VBox productImageContainer = new VBox();
-        ImageView productImageView = new ImageView();
-        VBox productInfoContainer = new VBox();
-        Label productNameLabel = new Label();
-        Label productPriceLabel = new Label();
-        JFXButton addProductButton = new JFXButton();
-        Region rightRegion = new Region();
+        IntStream.range(0, 3).forEachOrdered(n -> {
+            //Agregar nuevo producto
+            HBox productContainer = new HBox();
+            Region leftRegion = new Region();
+            VBox productImageContainer = new VBox();
+            ImageView productImageView = new ImageView();
+            VBox productInfoContainer = new VBox();
+            Label productNameLabel = new Label();
+            Label productPriceLabel = new Label();
+            JFXButton addProductButton = new JFXButton();
+            Region rightRegion = new Region();
 
-        productContainer.setAlignment(Pos.CENTER);
-        productContainer.setSpacing(15.0);
-        productContainer.setPadding(new Insets(15, 0, 15, 0));
-        productContainer.setStyle("-fx-background-color: #FFFFFF;");
+            productContainer.setAlignment(Pos.CENTER);
+            productContainer.setSpacing(15.0);
+            productContainer.setPadding(new Insets(15, 0, 15, 0));
+            productContainer.setStyle("-fx-background-color: #FFFFFF;");
 
-        //Left region's settings
-        leftRegion.setMinSize(50.0, 135.0);
+            //Left region's settings
+            leftRegion.setMinSize(50.0, 135.0);
 
-        //Product image's settings
-        productImageContainer.setMinSize(150.0, 135.0);
-        productImageContainer.setAlignment(Pos.CENTER);
-        productImageContainer.setStyle("-fx-background-color: #FFFFFF; -fx-border-width: 2; -fx-border-color: #63443C; -fx-border-radius: 2;");
+            //Product image's settings
+            productImageContainer.setMinSize(150.0, 135.0);
+            productImageContainer.setAlignment(Pos.CENTER);
+            productImageContainer.setStyle("-fx-background-color: #FFFFFF; -fx-border-width: 2; -fx-border-color: #63443C; -fx-border-radius: 2;");
 
-        try
-        {
-            productImageView.setImage(new Image(new FileInputStream("src/main/resources/img/products/barros.jpg")));
-        }
-        catch (FileNotFoundException e)
-        {
-            System.out.println("Error al encontrar la imagen");
-            System.out.println(System.getProperty("user.dir"));
-        }
-        productImageView.setFitWidth(140.0);
-        productImageView.setFitHeight(125.0);
-
-        productImageContainer.getChildren().add(productImageView);
-
-        // Product info's settings
-        productInfoContainer.setMinSize(209.0, 135.0);
-        productInfoContainer.setSpacing(10.0);
-
-        productNameLabel.setText("Barros Luco");
-        productNameLabel.setMaxSize(209.0, 35.0);
-        productNameLabel.setFont(Font.font(null, FontWeight.BOLD, FontPosture.REGULAR, 24));
-        productNameLabel.setTextFill(Color.rgb(99, 68, 60));
-
-        productPriceLabel.setText("$ 4,500");
-        productPriceLabel.setFont(Font.font(null, FontWeight.BOLD, FontPosture.REGULAR, 28));
-        productPriceLabel.setTextFill(Color.rgb(219, 103, 79));
-
-        productInfoContainer.getChildren().addAll(productNameLabel, productPriceLabel);
-
-        //Add button's settings
-        addProductButton.setMinSize(154.0, 50.0);
-        addProductButton.setText("AGREGAR");
-        addProductButton.setFont(Font.font(null, FontWeight.BOLD, FontPosture.REGULAR, 20));
-        addProductButton.setTextAlignment(TextAlignment.CENTER);
-        addProductButton.setTextFill(Color.rgb(255, 255, 255));
-        addProductButton.setCursor(Cursor.HAND);
-        addProductButton.setStyle("-fx-background-color: #D1C926; -fx-border-radius: 10;");
-
-        addProductButton.setOnAction(event -> {
-            JFXButton button = (JFXButton) event.getSource();
-            VBox container = (VBox) ((HBox) button.getParent()).getChildren().get(2);
-            String productName = ((Label) container.getChildren().get(0)).getText();
-            String radiusStyle = "-fx-border-radius: 10;";
-
-            if (productName == null)
-                return;
-
-            System.out.println(productName);
-
-            //Get product from database
-
-            // Show alert window
-
-            if (this.state)
+            try
             {
-                button.setText("AGREGAR");
-                button.setStyle("-fx-background-color: #D1C926;" + radiusStyle);
+                productImageView.setImage(new Image(new FileInputStream("src/main/resources/img/products/barros.jpg")));
             }
-            else
+            catch (FileNotFoundException e)
             {
-                button.setText("QUITAR");
-                button.setStyle("-fx-background-color: #DB674F;" + radiusStyle);
+                System.out.println("Error al encontrar la imagen");
+                System.out.println(System.getProperty("user.dir"));
             }
+            productImageView.setFitWidth(140.0);
+            productImageView.setFitHeight(125.0);
 
-            this.state = !this.state;
+            productImageContainer.getChildren().add(productImageView);
+
+            // Product info's settings
+            productInfoContainer.setMinSize(209.0, 135.0);
+            productInfoContainer.setSpacing(10.0);
+
+            productNameLabel.setText("Barros Luco");
+            productNameLabel.setMaxSize(209.0, 35.0);
+            productNameLabel.setFont(Font.font(null, FontWeight.BOLD, FontPosture.REGULAR, 24));
+            productNameLabel.setTextFill(Color.rgb(99, 68, 60));
+
+            productPriceLabel.setText("$ 4,500");
+            productPriceLabel.setFont(Font.font(null, FontWeight.BOLD, FontPosture.REGULAR, 28));
+            productPriceLabel.setTextFill(Color.rgb(219, 103, 79));
+
+            productInfoContainer.getChildren().addAll(productNameLabel, productPriceLabel);
+
+            //Add button's settings
+            addProductButton.setMinSize(154.0, 50.0);
+            addProductButton.setText("AGREGAR");
+            addProductButton.setFont(Font.font(null, FontWeight.BOLD, FontPosture.REGULAR, 20));
+            addProductButton.setTextAlignment(TextAlignment.CENTER);
+            addProductButton.setTextFill(Color.rgb(255, 255, 255));
+            addProductButton.setCursor(Cursor.HAND);
+            addProductButton.setStyle("-fx-background-color: #D1C926; -fx-border-radius: 10;");
+
+            addProductButton.setOnAction(event -> {
+                JFXButton button = (JFXButton) event.getSource();
+                VBox container = (VBox) ((HBox) button.getParent()).getChildren().get(2);
+                String productName = ((Label) container.getChildren().get(0)).getText();
+                String radiusStyle = "-fx-border-radius: 10;";
+
+                if (productName == null)
+                    return;
+
+                System.out.println(productName);
+
+                //Get product from database
+
+                // Show alert window
+
+                if (this.state)
+                {
+                    button.setText("AGREGAR");
+                    button.setStyle("-fx-background-color: #D1C926;" + radiusStyle);
+                }
+                else
+                {
+                    button.setText("QUITAR");
+                    button.setStyle("-fx-background-color: #DB674F;" + radiusStyle);
+                }
+
+                this.state = !this.state;
+            });
+
+            // Right Region
+            rightRegion.setMinSize(50.0, 135.0);
+
+            productContainer.getChildren().addAll(leftRegion, productImageContainer, productInfoContainer, addProductButton, rightRegion);
+
+            this.productsContainer.getChildren().add(productContainer);
         });
-
-        // Right Region
-        rightRegion.setMinSize(50.0, 135.0);
-
-        productContainer.getChildren().addAll(leftRegion, productImageContainer, productInfoContainer, addProductButton, rightRegion);
-
-        this.productsContainer.getChildren().add(productContainer);
     }
 
     @FXML
