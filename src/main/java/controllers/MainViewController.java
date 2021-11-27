@@ -1,6 +1,6 @@
 package controllers;
 
-import DAO.PedidoDAOImpl;
+import form.Pedido;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -25,12 +25,12 @@ public class MainViewController extends BaseController
             Parent root = loader.load();
             Scene escena = new Scene(root);
 
-            // Crear un nuevo pedido
-            PedidoDAOImpl pedidoDAO = new PedidoDAOImpl();
+            //Crear nuevo objeto pedido
+            Pedido pedido = new Pedido();
 
             //Obtiene el controlador de la vista
             MenuViewController controller = (MenuViewController) loader.getController();
-            controller.initialize(40000);
+            controller.initialize(pedido, 0);
 
             Stage ventana = (Stage) parentContainer.getScene().getWindow();
             ventana.setScene(escena);

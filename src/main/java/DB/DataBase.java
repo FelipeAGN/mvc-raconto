@@ -1,22 +1,26 @@
 package DB;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class DataBase {
 
     public static Connection connection() {
-
         Connection connection = null;
+        ResultSet resultSet = null;
+        Statement statement = null;
 
         try {
             // create a database connection
-            connection = DriverManager.getConnection("jdbc:sqlite:./src/main/resources/database.db");
-            Statement statement = connection.createStatement();
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection("jdbc:sqlite:./src/main/resources/identifier.sqlite");
+            statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec.
-            System.out.println("Funciona la conexion a la base de datos");
-        } catch (SQLException e) {
+
+            resultSet = statement.executeQuery("select * from product");
+            while (resultSet.next()){
+                System.out.println("Funciona la conexion a la base de datos");
+                System.out.println("Products: " + resultSet.getString("name"));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
             System.err.println(e.getMessage());
             System.out.println("Error al conectar la base de datos");
         } finally {

@@ -1,5 +1,7 @@
 package controllers;
 
+import form.CategoriaProduct;
+import form.Pedido;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,13 +21,15 @@ public class MenuViewController extends BaseController
     @FXML
     private Label totalMountLabel;
 
-    private double dinero;
+    private Pedido pedido;
 
-    public void initialize(double dinero)
+    public void initialize(Pedido pedido, double money)
     {
-        this.dinero = dinero;
+        double dinero = 1000.0;
+        this.pedido = pedido;
         DecimalFormat formatter = new DecimalFormat("###,###");
-        this.totalMountLabel.setText("$ " + formatter.format(this.dinero));
+        this.totalMountLabel.setText("$ " + formatter.format(dinero));
+        //this.totalMountLabel.setText("$ " + formatter.format(this.pedido.getTotalBalance()));
     }
 
     @FXML
@@ -56,32 +60,28 @@ public class MenuViewController extends BaseController
     @FXML
     private void loadCafesView()
     {
-        String category = "Cafés";
-        loadProductsView(category);
+        loadProductsView(CategoriaProduct.CAFE);
     }
 
     @FXML
     private void loadPostresView()
     {
-        String category = "Postres";
-        loadProductsView(category);
+        loadProductsView(CategoriaProduct.POSTRE);
     }
 
     @FXML
     private void loadSandwichesView()
     {
-        String category = "Sándwiches";
-        loadProductsView(category);
+        loadProductsView(CategoriaProduct.SANDWICH);
     }
 
     @FXML
     private void loadBebidasView()
     {
-        String category = "Bebidas";
-        loadProductsView(category);
+        loadProductsView(CategoriaProduct.BEBIDA);
     }
 
-    private void loadProductsView(String category)
+    private void loadProductsView(CategoriaProduct category)
     {
         try
         {
@@ -92,7 +92,7 @@ public class MenuViewController extends BaseController
 
             //Carga el controlador de la vista
             ProductsViewController controller = (ProductsViewController) loader.getController();
-            controller.initialize(category, 2000);
+            controller.initialize(this.pedido, category, 2000);
 
             Stage ventana = (Stage) parentContainer.getScene().getWindow();
             ventana.setScene(escena);
@@ -116,7 +116,7 @@ public class MenuViewController extends BaseController
 
             //Carga el controlador de la vista
             CartViewController controller = (CartViewController) loader.getController();
-            controller.initialize(2000);
+            controller.initialize(this.pedido,2000);
 
             Stage ventana = (Stage) parentContainer.getScene().getWindow();
             ventana.setScene(escena);

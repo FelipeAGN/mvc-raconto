@@ -1,6 +1,10 @@
 package controllers;
 
+import DAO.ProductDAOImpl;
 import com.jfoenix.controls.JFXButton;
+import form.CategoriaProduct;
+import form.Pedido;
+import form.Product;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -25,6 +29,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.stream.IntStream;
 
 public class ProductsViewController extends BaseController
@@ -45,23 +50,34 @@ public class ProductsViewController extends BaseController
     @FXML
     private JFXButton button;
 
-    private String category;
+    private Pedido pedido;
+    private CategoriaProduct category;
     private double mount;
 
     private boolean state;
 
-    public void initialize(String category, double mount)
+    public void initialize(Pedido pedido, CategoriaProduct category, double mount)
     {
+        this.pedido = pedido;
         this.category = category;
         this.mount = mount;
         this.state = false;
 
         //Set category to label
-        this.categoryLabel.setText(this.category);
+        this.categoryLabel.setText(this.category.toString());
 
         //Set total mount to label
         DecimalFormat formatter = new DecimalFormat("###,###");
         this.totalMountLabel.setText("$ " + formatter.format(this.mount));
+
+        //Get Products
+        ProductDAOImpl productDAO = new ProductDAOImpl();
+
+        System.out.println(category.getCategoriaProductValue());
+
+        List<Product> productsList = productDAO.listProductsByCategoria(category.getCategoriaProductValue());
+
+        System.out.println(productsList);
 
         IntStream.range(0, 3).forEachOrdered(n -> {
             //Agregar nuevo producto
@@ -193,7 +209,7 @@ public class ProductsViewController extends BaseController
 
             //Obtiene el controlador de la vista
             MenuViewController controller = (MenuViewController) loader.getController();
-            controller.initialize(this.mount);
+            controller.initialize(this.pedido, this.mount);
 
             Stage window = (Stage) parentContainer.getScene().getWindow();
             window.setScene(scene);
