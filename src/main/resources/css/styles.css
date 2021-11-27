@@ -1,12 +1,18 @@
-title
+@font-face
 {
-    -fx-background-color: #fcc200;
-    -fx-font-weight: 900;
-    -fx-padding: 10px;
-    -fx-font-size: 18pt;
+	src: url('../fonts/Roboto-Regular.ttf');
 }
 
-.bold
+.text-info
 {
-    -fx-font-weight: bold;
+	-fx-font-family: 'Roboto';
+	-fx-font-size: 36px;
+	-fx-font-width: 700px;
+}
+
+.panel
+{
+    -fx-border-width: 2;
+    -fx-border-color: #63443C;
+    -fx-border-radius: 7;
 }

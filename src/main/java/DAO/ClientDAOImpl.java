@@ -25,13 +25,11 @@ public class ClientDAOImpl implements ClientDAO{
             resultado = sentencia.executeQuery();
 
             while (resultado.next()){
-                Client client1 = new Client(
+                client = new Client(
                         resultado.getString("name"),
                         resultado.getString("lastName"),
                         resultado.getString("email")
                 );
-                client1.setId(id);
-                client = client1;
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
