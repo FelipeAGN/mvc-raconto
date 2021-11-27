@@ -65,6 +65,5 @@ public class Pedido {
     public void setDescription(String description) { this.description = description; }
     public Integer getId_cliente() { return id_cliente; }
     public void setId_cliente(Integer id_cliente) { this.id_cliente = id_cliente; }
-    public List<PedidoProduct> getPedidoProducts() { return pedidoProducts; }
-    public void setPedidoProducts(List<PedidoProduct> pedidoProducts) { this.pedidoProducts = pedidoProducts; }
+    public void setProductToPedido(PedidoProduct pedidoProduct){ this.pedidoProducts.add(pedidoProduct); }
 }

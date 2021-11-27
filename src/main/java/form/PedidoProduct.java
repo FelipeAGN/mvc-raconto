@@ -3,7 +3,7 @@ package form;
 public class PedidoProduct {
 
     private Integer id;
-    private Integer id_order;
+    private Integer id_pedido;
     private Integer id_product;
     private Integer cantidadProduct;
 
@@ -11,7 +11,7 @@ public class PedidoProduct {
 
     public PedidoProduct(Integer id, Integer id_order, Integer id_product) {
         this.id = id;
-        this.id_order = id_order;
+        this.id_pedido = id_order;
         this.id_product = id_product;
     }
 
@@ -23,12 +23,12 @@ public class PedidoProduct {
         this.id = id;
     }
 
-    public Integer getId_order() {
-        return id_order;
+    public Integer getId_pedido() {
+        return id_pedido;
     }
 
-    public void setId_order(Integer id_order) {
-        this.id_order = id_order;
+    public void setId_pedido(Integer id_order) {
+        this.id_pedido = id_order;
     }
 
     public Integer getId_product() {
