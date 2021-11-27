@@ -1,0 +1,20 @@
+Cafe latte,1.500,Cafes,cafe_latte.jpg
+Cafe express,1.000,Cafes,cafe_expreso.jpg
+Cafe capuccino,1.500,Cafes,cafe_capuccino.jpg
+Cafe cortado,1.200,Cafes,cafe_cortado.jpg
+Cafe macchiato,1.500,Cafes,cafe_macchiato.jpg
+Torta de trufas,2.000,Postres,torta_trufas.jpg
+Torta de yogurt,1.790,Postres,torta_yogurtg.jpg
+Torta de fruta,1.890,Postres,torta_fruta.jpg
+Manzana Rallada,500,Postres,postre_de_manzana.jpg
+Tiramisu,2.500,Postres,tiramisu.jpg
+Footlong, 5.890, Sándwiches, footlong.png
+Italian Burguer, 5.890, Sándwiches, italian_burguer.png
+Mechada Italiana, 5.390,Sándwiches, mechada_italiana.png
+Tostadas con Huevos Revueltos, 1.990, Sándwiches, t_huevos_revueltos.png
+Mechada Luco, 5.190, Sándwiches, mechada_luco.png
+Naranja Plátano, 2.490, Bebidas, naranja_platano.png
+Limonada, 2.490, Bebidas, limonada.png
+Bebidas lata, 2.200, Bebidas, bebida_lata.png
+Bebidas botella, 1.590, Bebidas, bebida_lata.png
+Vitamina Naranja, 2.490,Bebidas, vitamina_naranja.png
