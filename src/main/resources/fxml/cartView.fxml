@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="parentContainer" prefHeight="1000.0" prefWidth="700.0" spacing="30.0" style="-fx-background-color: #F8EDE7;" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CartViewController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="70.0" prefWidth="723.0" style="-fx-background-color: #63443c;">
+         <children>
+            <JFXButton contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" onAction="#loadMenuView" prefHeight="44.0" prefWidth="50.0" ripplerFill="#ffffff00">
+               <graphic>
+                  <MaterialDesignIconView disable="true" fill="#f6eddc" glyphName="ARROW_LEFT" size="50">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </MaterialDesignIconView>
+               </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <Region minHeight="70.0" HBox.hgrow="ALWAYS" />
+            <MaterialDesignIconView fill="WHITE" glyphName="CASH_100" size="36">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </MaterialDesignIconView>
+            <Label fx:id="totalMountLabel" prefHeight="38.0" prefWidth="120.0" text="\$ 999,999" textFill="WHITE">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="36.0" prefWidth="700.0">
+         <children>
+            <Region prefWidth="200.0" />
+            <Label prefHeight="53.0" prefWidth="377.0" text="Resumen del Pedido" textFill="#63443c">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Region prefWidth="200.0" />
+         </children>
+      </HBox>
+      <ScrollPane hbarPolicy="NEVER" hmax="0.0" prefHeight="537.0" prefWidth="700.0" style="-fx-background: #F8EDE7; -fx-border-color: #FFFFFF;" vbarPolicy="ALWAYS">
+         <content>
+            <VBox fx:id="cartContainer" alignment="TOP_CENTER" prefHeight="330.0" prefWidth="685.0" spacing="20.0" style="-fx-background-color: #F8EDE7;">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="316.0" spacing="15.0" style="-fx-background-color: #FFFFFF;">
+                     <children>
+                        <Region prefHeight="135.0" prefWidth="50.0" />
+                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="135.0" prefWidth="150.0" style="-fx-background-color: #FFFFFF;" styleClass="panel">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </AnchorPane>
+                        <VBox prefHeight="135.0" prefWidth="214.0" spacing="10.0">
+                           <children>
+                              <Label prefHeight="35.0" prefWidth="217.0" text="Completo Italiano" textFill="#63443c">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Categoría: Sándwiches" textFill="#5b5858">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label style="-fx-border-width: 5; -fx-boder-color: #DB674F;" text="\$ 1000" textFill="#db674f">
+                                 <font>
+                                    <Font name="System Bold" size="28.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <MaterialDesignIconView fill="#db674f" glyphName="MINUS_CIRCLE" onMousePressed="#subtractProduct" size="50">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MaterialDesignIconView>
+                        <Label fx:id="quantityLabel" prefHeight="58.0" prefWidth="50.0" text="10" textAlignment="RIGHT" textFill="#63443c">
+                           <font>
+                              <Font name="System Bold" size="40.0" />
+                           </font>
+                        </Label>
+                        <MaterialDesignIconView fill="#d1c926" glyphName="PLUS_CIRCLE" layoutX="552.0" layoutY="83.0" onMousePressed="#addProduct" size="50">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MaterialDesignIconView>
+                        <VBox prefHeight="135.0" prefWidth="40.0">
+                           <children>
+                              <MaterialDesignIconView fill="#db674f" glyphName="DELETE" onMousePressed="#removeProduct" size="40" wrappingWidth="36.0">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </MaterialDesignIconView>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" top="15.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="700.0" spacing="50.0">
+         <children>
+            <Region prefHeight="200.0" prefWidth="200.0" />
+            <JFXButton alignment="CENTER" onAction="#checkOutOrder" prefWidth="550.0" style="-fx-background-color: #D1C926; -fx-border-radius: 10;" text="PAGAR CON TRANSBANK" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+               <padding>
+                  <Insets bottom="15.0" top="15.0" />
+               </padding>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <Region prefHeight="200.0" prefWidth="200.0" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="10.0" layoutY="730.0" prefHeight="100.0" prefWidth="316.0" spacing="50.0">
+         <children>
+            <Region prefHeight="200.0" prefWidth="200.0" />
+            <JFXButton alignment="CENTER" onAction="#cancelOrder" prefWidth="550.0" style="-fx-background-color: #DB674F; -fx-border-radius: 10;" text="CANCELAR PEDIDO" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+               <padding>
+                  <Insets bottom="15.0" top="15.0" />
+               </padding>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <Region prefHeight="200.0" prefWidth="200.0" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

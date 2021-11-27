@@ -15,11 +15,8 @@ public class App extends Application
     {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/mainView.fxml"));
         primaryStage.setTitle("Raconto Token Autoservice");
-        primaryStage.setScene(new Scene(root, 850, 1000));
+        primaryStage.setScene(new Scene(root, 700, 1000));
         primaryStage.show();
-
-
-        //System.out.println("Hola mundo desde start()");
     }
 
     public static void main(String[] args)
@@ -28,6 +25,5 @@ public class App extends Application
         connection = DataBase.connection();
 
         launch(args);
-        //System.out.println("Hola mundo desde main()");
     }
 }
